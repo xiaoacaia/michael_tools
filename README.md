@@ -2,6 +2,8 @@ GitHub: https://github.com/xiaoacaia/michael_tools
 pypi: https://pypi.org/project/michael-tools
 Personal toolkit
 
+测试代码，在 GitHub 工具函数，同级目录下的 test 文件中
+
 file_operation
 - create_file(file_path)
 - delete_file(file_path)
