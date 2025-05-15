@@ -1,0 +1,4 @@
+/test/
+.idea
+.venv
+michael_tools/openapi_op/test/openapi_key
