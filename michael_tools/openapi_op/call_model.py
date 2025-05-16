@@ -81,6 +81,9 @@ def process_non_stream_response(completion, show_process=True):
 
 
 # https://help.aliyun.com/zh/model-studio/deepseek-api
+# - DeepSeek-V3：通用模型
+# - DeepSeek-R1：推理模型
+# - Qwen3-235B-A22B：通用模型
 def call_model(prompt, model_name="deepseek-r1", show_process=True, stream=True):
     client = create_client()
 
