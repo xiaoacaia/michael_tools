@@ -11,7 +11,7 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
 
 setup(
     name='michael_tools',
-    version='0.0.9',
+    version='0.1.0',
     author='Michael Smith',
     author_email='1422749310@qq.com',
     description='This is my personal toolkit',

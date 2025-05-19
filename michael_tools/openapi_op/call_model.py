@@ -9,7 +9,7 @@ if openapi_key is None:
     print("读取上一级目录 ......", end="")
     openapi_key = read_file(path_join(get_upper_dir(), "openapi_key"))
     if openapi_key is not None:
-        print("读取成功")
+        print(" 'openapi_key' 已找到，读取成功。\n")
 _global_api_key = openapi_key
 
 
@@ -85,7 +85,7 @@ def process_non_stream_response(completion, show_process=True):
     answer_content = completion.choices[0].message.content
 
     if show_process:
-        print(f"思考过程：{reasoning_content}")
+        print(f"思考过程：{reasoning_content}\n")
         print(f"完整回复：{answer_content}\n\n")
 
     return reasoning_content, answer_content
@@ -107,9 +107,9 @@ def call_model(prompt, model_name="deepseek-r1", show_process=False, stream=Fals
     completion = client.chat.completions.create(**request_params)
 
     if stream:
-        reasoning_content, answer_content = process_stream_response(completion, show_process)
+        thinking_process, complete_reply = process_stream_response(completion, show_process)
     else:
-        reasoning_content, answer_content = process_non_stream_response(completion, show_process)
+        thinking_process, complete_reply = process_non_stream_response(completion, show_process)
     
     end_time = time.time()  # 记录结束时间
     elapsed_time = end_time - start_time  # 计算花费时间
@@ -117,10 +117,9 @@ def call_model(prompt, model_name="deepseek-r1", show_process=False, stream=Fals
     if record_time:
         if show_process:
             print(f"\n花费时间: {elapsed_time:.2f} 秒")
-        return reasoning_content, answer_content, elapsed_time
+        return thinking_process, complete_reply, elapsed_time
     else:
-        return reasoning_content, answer_content
-
+        return thinking_process, complete_reply
 
 def call_model_verbose(prompt):
     return call_model(prompt, show_process=True, stream=True, record_time=True)
