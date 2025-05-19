@@ -5,7 +5,7 @@ from openai import OpenAI
 # 全局变量存储API密钥
 openapi_key = read_file("openapi_key")
 if openapi_key is None:
-    openapi_key = path_join(get_upper_dir(), "openapi_key")
+    openapi_key = read_file(path_join(get_upper_dir(), "openapi_key"))
 _global_api_key = openapi_key
 
 

@@ -11,3 +11,5 @@
 .idea
 .venv
 michael_tools/openapi_op/test/openapi_key
+/michael_tools.egg-info/
+/dist/
