@@ -5,7 +5,10 @@ from openai import OpenAI
 # 全局变量存储API密钥
 openapi_key = read_file("openapi_key")
 if openapi_key is None:
+    print("读取上一级目录 ......", end="")
     openapi_key = read_file(path_join(get_upper_dir(), "openapi_key"))
+    if openapi_key is not None:
+        print("读取成功")
 _global_api_key = openapi_key
 
 
@@ -16,7 +19,7 @@ def set_api_key(api_key):
 def create_client():
     if not _global_api_key:
         raise ValueError("API 密钥未设置，请使用 set_api_key() 函数设置有效的 API 密钥")
-    
+
     return OpenAI(
         api_key=_global_api_key,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
