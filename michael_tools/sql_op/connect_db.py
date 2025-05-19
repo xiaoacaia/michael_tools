@@ -1,3 +1,5 @@
+import pymysql
+
 
 def db_connection_test(connection_params):
     try:
@@ -9,7 +11,7 @@ def db_connection_test(connection_params):
         return False
 
 
-def execute_sql_query(sql):
+def execute_sql_query(db_config, sql):
     try:
         connection = pymysql.connect(**db_config)
         with connection.cursor() as cursor:

@@ -1,4 +1,10 @@
 # 处理查询结果，转换为DataFrame
+import datetime
+import pandas as pd
+from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
+
+
 def format_pd_datetime_columns(db_res):
     if not db_res:
         return None
@@ -22,16 +28,15 @@ def initialize_workbook():
     return workbook
 
 
-# 调整Excel工作表列宽
-def adjust_column_width(worksheet, df, width_multiplier=1.7):
-    """调整Excel工作表的列宽"""
+# 调整 Excel 工作表的列宽
+def adjust_column_width(worksheet, df, width_multiplier):
     for i, col in enumerate(df.columns):
         column_width = max(df[col].astype(str).map(len).max(), len(col)) * width_multiplier
         worksheet.column_dimensions[get_column_letter(i + 1)].width = column_width
 
 
 # 创建新的 Excel工作表，并写入数据
-def create_sheet_to_excel(workbook, sheet_name, df):
+def create_sheet_to_excel(workbook, sheet_name, df, width_multiplier=1.7):
     # 如果工作表已存在，删除它
     if sheet_name in workbook.sheetnames:
         idx = workbook.sheetnames.index(sheet_name)
@@ -50,6 +55,6 @@ def create_sheet_to_excel(workbook, sheet_name, df):
             worksheet.cell(row=r_idx + 2, column=c_idx + 1, value=value)
 
     # 调整列宽
-    adjust_column_width(worksheet, df)
+    adjust_column_width(worksheet, df, width_multiplier)
 
     return worksheet

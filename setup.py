@@ -24,8 +24,11 @@ setup(
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.13',
     install_requires=[  # 依赖项（可选）
-        # 'requests',
+        'openpyxl',
+        'pandas',
+        'pymysql',
+        'openai'
     ],
 )

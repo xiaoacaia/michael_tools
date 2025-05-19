@@ -13,3 +13,4 @@
 michael_tools/openapi_op/test/openapi_key
 /michael_tools.egg-info/
 /dist/
+/michael_tools/sql_op/test/db_config.json
