@@ -1,6 +1,7 @@
 from michael_tools.file_op.dir_op import get_upper_dir, path_join
 from michael_tools.file_op.read_file import read_file
 from openai import OpenAI
+import time  # 导入time模块用于记录时间
 
 # 全局变量存储API密钥
 openapi_key = read_file("openapi_key")
@@ -94,7 +95,9 @@ def process_non_stream_response(completion, show_process=True):
 # - DeepSeek-V3：通用模型
 # - DeepSeek-R1：推理模型
 # - Qwen3-235B-A22B：通用模型
-def call_model(prompt, model_name="deepseek-r1", show_process=True, stream=True):
+def call_model(prompt, model_name="deepseek-r1", show_process=False, stream=False, record_time=False):
+    start_time = time.time()  # 记录开始时间
+    
     client = create_client()
 
     # 准备请求参数
@@ -104,6 +107,20 @@ def call_model(prompt, model_name="deepseek-r1", show_process=True, stream=True)
     completion = client.chat.completions.create(**request_params)
 
     if stream:
-        return process_stream_response(completion, show_process)
+        reasoning_content, answer_content = process_stream_response(completion, show_process)
     else:
-        return process_non_stream_response(completion, show_process)
+        reasoning_content, answer_content = process_non_stream_response(completion, show_process)
+    
+    end_time = time.time()  # 记录结束时间
+    elapsed_time = end_time - start_time  # 计算花费时间
+    
+    if record_time:
+        if show_process:
+            print(f"\n花费时间: {elapsed_time:.2f} 秒")
+        return reasoning_content, answer_content, elapsed_time
+    else:
+        return reasoning_content, answer_content
+
+
+def call_model_verbose(prompt):
+    return call_model(prompt, show_process=True, stream=True, record_time=True)

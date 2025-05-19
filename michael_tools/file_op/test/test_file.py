@@ -8,7 +8,7 @@ from michael_tools.file_op.write_file import write_to_file, append_to_file
 test_filename = "foo.txt"
 
 
-def test_get_cwd():
+def test_get_curr_work_dir():
     print(get_curr_work_dir())
 
 

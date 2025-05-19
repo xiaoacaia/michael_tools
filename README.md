@@ -3,6 +3,7 @@ pypi: https://pypi.org/project/michael-tools
 Personal toolkit
 
 测试代码，在 GitHub 工具函数，同级目录下的 test 文件中
+需安装：pip install pytest
 
 file_operation
 - create_file(file_path)
@@ -11,6 +12,9 @@ file_operation
 - write_to_file(file_path, content)
 - append_to_file(file_path, content)
 - get_unique_filepath(file_name)
+- get_curr_work_dir()
+- get_upper_dir(path=None)
+- path_join(*parts)
 
 json_operation
 - dict_to_str(python_obj)
