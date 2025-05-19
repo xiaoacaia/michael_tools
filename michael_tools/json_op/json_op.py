@@ -1,7 +1,7 @@
 import json
 
 
-# dumps 是俗人（吊毛），将 dict，转为 str（野蛮的）
+# dumps 是（吊毛），将 dict，转为 str（野蛮的）
 def dict_to_str(python_obj):
     return json.dumps(python_obj, ensure_ascii=False, indent=4)
 

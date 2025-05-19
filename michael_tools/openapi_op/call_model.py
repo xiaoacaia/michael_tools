@@ -65,8 +65,8 @@ def prepare_request_params(prompt, model_name, stream=True):
 
 
 def process_stream_response(completion, show_process=True):
-    reasoning_content = ""  # 思考过程
-    answer_content = ""  # 回答内容
+    thinking_process = ""  # 思考过程
+    complete_reply = ""  # 回答内容
     is_answering = False  # 是否开始回答
 
     if show_process:
@@ -82,8 +82,8 @@ def process_stream_response(completion, show_process=True):
         delta = chunk.choices[0].delta
 
         # 处理思考过程
-        if hasattr(delta, 'reasoning_content') and delta.reasoning_content is not None:
-            reasoning_content += delta.reasoning_content
+        if hasattr(delta, 'thinking_process') and delta.reasoning_content is not None:
+            thinking_process += delta.reasoning_content
             if show_process:
                 print(delta.reasoning_content, end='', flush=True)
         # 处理回答内容
@@ -93,22 +93,22 @@ def process_stream_response(completion, show_process=True):
                 print("\n完整回复：", end='')
                 is_answering = True
 
-            answer_content += delta.content or ""
+            complete_reply += delta.content or ""
             if show_process:
                 print(delta.content or "", end='', flush=True)
 
-    return reasoning_content, answer_content
+    return thinking_process, complete_reply
 
 
 def process_non_stream_response(completion, show_process=True):
-    reasoning_content = completion.choices[0].message.reasoning_content
-    answer_content = completion.choices[0].message.content
+    thinking_process = completion.choices[0].message.reasoning_content
+    complete_reply = completion.choices[0].message.content
 
     if show_process:
-        print(f"思考过程：{reasoning_content}\n")
-        print(f"完整回复：{answer_content}\n\n")
+        print(f"思考过程：{thinking_process}\n")
+        print(f"完整回复：{complete_reply}\n\n")
 
-    return reasoning_content, answer_content
+    return thinking_process, complete_reply
 
 
 # https://help.aliyun.com/zh/model-studio/deepseek-api

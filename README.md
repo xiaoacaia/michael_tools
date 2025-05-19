@@ -29,7 +29,8 @@ time_operation
 - get_current_date_str()
 
 openapi_operation
-- call_model(prompt, model_name="deepseek-r1", show_process=True, stream=True)
+- call_model_verbose(prompt)
+- call_model(prompt, model_name="deepseek-r1", show_process=False, stream=False, record_time=False)
 
 txt_operation
 - remove_trailing_newline(txt)
