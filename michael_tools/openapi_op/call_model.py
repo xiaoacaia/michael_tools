@@ -1,28 +1,48 @@
 from michael_tools.file_op.dir_op import get_upper_dir, path_join
 from michael_tools.file_op.read_file import read_file
 from openai import OpenAI
-import time  # 导入time模块用于记录时间
+import time
 
 # 全局变量存储API密钥
-openapi_key = read_file("openapi_key")
-if openapi_key is None:
-    print("读取上一级目录 ......", end="")
-    openapi_key = read_file(path_join(get_upper_dir(), "openapi_key"))
-    if openapi_key is not None:
-        print(" 'openapi_key' 已找到，读取成功。\n")
-_global_api_key = openapi_key
+_global_api_key = None
+_api_key_loaded = False
+
+# 懒加载API密钥，仅在首次需要时加载
+def _load_api_key():
+    global _global_api_key, _api_key_loaded
+
+    if _api_key_loaded:
+        return _global_api_key
+
+    # 寻找 OpenAI api_key，默认从当前工作目录查找，如果没有，则从上一级目录查找
+    openapi_key = read_file("openapi_key")
+    if openapi_key is None:
+        print("读取上一级目录 ......", end="")
+        openapi_key = read_file(path_join(get_upper_dir(), "openapi_key"))
+        if openapi_key is not None:
+            print(" 'openapi_key' 已找到，读取成功。\n")
+
+    _global_api_key = openapi_key
+    _api_key_loaded = True
+    return _global_api_key
 
 
+# 设置API密钥
 def set_api_key(api_key):
+    global _global_api_key, _api_key_loaded
     _global_api_key = api_key
+    _api_key_loaded = True
 
 
+# 创建OpenAI客户端
 def create_client():
-    if not _global_api_key:
+    api_key = _load_api_key()
+
+    if not api_key:
         raise ValueError("API 密钥未设置，请使用 set_api_key() 函数设置有效的 API 密钥")
 
     return OpenAI(
-        api_key=_global_api_key,
+        api_key=api_key,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
     )
 
@@ -97,7 +117,7 @@ def process_non_stream_response(completion, show_process=True):
 # - Qwen3-235B-A22B：通用模型
 def call_model(prompt, model_name="deepseek-r1", show_process=False, stream=False, record_time=False):
     start_time = time.time()  # 记录开始时间
-    
+
     client = create_client()
 
     # 准备请求参数
@@ -110,16 +130,17 @@ def call_model(prompt, model_name="deepseek-r1", show_process=False, stream=Fals
         thinking_process, complete_reply = process_stream_response(completion, show_process)
     else:
         thinking_process, complete_reply = process_non_stream_response(completion, show_process)
-    
+
     end_time = time.time()  # 记录结束时间
     elapsed_time = end_time - start_time  # 计算花费时间
-    
+
     if record_time:
         if show_process:
             print(f"\n花费时间: {elapsed_time:.2f} 秒")
         return thinking_process, complete_reply, elapsed_time
     else:
         return thinking_process, complete_reply
+
 
 def call_model_verbose(prompt):
     return call_model(prompt, show_process=True, stream=True, record_time=True)
