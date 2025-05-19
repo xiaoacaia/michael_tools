@@ -4,7 +4,7 @@ from michael_tools.json_op.json_op import read_file_to_dict
 from michael_tools.sql_op.connect_db import db_connection_test, execute_sql_query
 
 # 获取配置文件的绝对路径
-db_config = read_file_to_dict('db_config.json')
+db_config = read_file_to_dict('C:\\Users\\Administrator\\Documents\\python_projects\\michael_tools\\michael_tools\\sql_op\\test\\db_config.json')
 db_config['cursorclass'] = pymysql.cursors.DictCursor
 
 def test_connect():

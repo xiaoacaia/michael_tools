@@ -1,5 +1,6 @@
 # 处理查询结果，转换为DataFrame
-import datetime
+from datetime import datetime
+
 import pandas as pd
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
@@ -13,6 +14,7 @@ def format_pd_datetime_columns(db_res):
 
     # 处理日期时间列
     for col in df.columns:
+        # A if B else C：如果 B 是 True，就返回 A，否则返回 C
         if isinstance(df[col].iloc[0], datetime) if not df.empty else False:
             df[col] = df[col].dt.strftime('%Y-%m-%d %H:%M:%S')
 
