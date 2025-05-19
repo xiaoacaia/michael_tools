@@ -1,8 +1,12 @@
+from michael_tools.file_op.dir_op import get_upper_dir, path_join
 from michael_tools.file_op.read_file import read_file
 from openai import OpenAI
 
 # 全局变量存储API密钥
-_global_api_key = read_file("openapi_key")
+openapi_key = read_file("openapi_key")
+if openapi_key is None:
+    openapi_key = path_join(get_upper_dir(), "openapi_key")
+_global_api_key = openapi_key
 
 
 def set_api_key(api_key):
@@ -10,6 +14,9 @@ def set_api_key(api_key):
 
 
 def create_client():
+    if not _global_api_key:
+        raise ValueError("API 密钥未设置，请使用 set_api_key() 函数设置有效的 API 密钥")
+    
     return OpenAI(
         api_key=_global_api_key,
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"

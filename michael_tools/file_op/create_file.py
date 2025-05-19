@@ -1,5 +1,6 @@
 import os
 
+# 创建的目录位置：当前工作目录
 def create_file(file_path):
     if os.path.exists(file_path):
         print(f"文件 '{file_path}' 已存在。")

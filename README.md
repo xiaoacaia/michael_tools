@@ -30,6 +30,7 @@ openapi_operation
 txt_operation
 - remove_trailing_newline(txt)
 
+`0.0.7` add file_op
 `0.0.6` add openapi_op
 `0.0.5` add time
 

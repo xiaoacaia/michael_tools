@@ -26,7 +26,7 @@ def get_prompt(example_ans):
         
         用户输入：
         {input_text}
-        """
+    """
     return prompt
 
 
@@ -36,7 +36,7 @@ def test_chinese_ans():
     """
     prompt = get_prompt(chinese_ans)
     print(prompt)
-    call_model(prompt)
+    # call_model(prompt)
     # 输出：{"时间": "今天晚上", "地点": "酒馆", "人物": ["我", "我的闺蜜小美"]}
 
 
