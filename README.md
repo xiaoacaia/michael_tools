@@ -30,11 +30,14 @@ time_operation
 
 openapi_operation
 - call_model_verbose(prompt)
-- call_model(prompt, model_name="deepseek-r1", show_process=False, stream=False, record_time=False)
+- call_model(prompt, model_name="deepseek-r1")
+- ChatSession.load_from_file(file_name)
+- chat.send_message(self, message)
 
 txt_operation
 - remove_trailing_newline(txt)
-
+  
+`0.1.3` chat_session
 `0.0.9` call_model_verbose
 `0.0.7` add file_op
 `0.0.6` add openapi_op

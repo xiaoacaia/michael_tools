@@ -55,7 +55,7 @@ class ChatSession:
         self.messages.append({"role": role, "content": content})
         self._save_session()
 
-    def send_message(self, message, show_process=True, stream=False):
+    def send_message(self, message, show_process=False, stream=False):
         self.add_message("user", message)
 
         start_time = time.time()
@@ -102,7 +102,7 @@ class ChatSession:
         print(f"已将模型设置为 {model_name}")
         
     @staticmethod
-    def load_from_file(file_name):
+    def load_session(file_name):
         session_id = file_name.split('.')[0]
         
         # 创建会话对象
