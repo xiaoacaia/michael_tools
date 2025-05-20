@@ -7,8 +7,7 @@ from michael_tools.file_op.dir_op import path_join
 from michael_tools.file_op.read_file import read_file
 from michael_tools.file_op.write_file import write_to_file
 from michael_tools.json_op.json_op import str_to_dict, dict_to_str
-from michael_tools.openapi_op.call_model import create_client, process_non_stream_response, process_stream_response, \
-    set_api_key
+from michael_tools.openapi_op.call_model import create_client, process_non_stream_response, process_stream_response
 
 
 # 多轮对话会话类，支持对话历史管理和存储
@@ -19,7 +18,7 @@ class ChatSession:
         self.client = create_client()
 
         if session_id is None:
-            self.session_id = f"chat_{datetime.now().strftime('%Y_%m_%d__%H%M%S')}"
+            self.session_id = f"chat_{datetime.now().strftime('%Y_%m_%d__%H_%M_%S')}"
         else:
             self.session_id = session_id
 
@@ -46,7 +45,6 @@ class ChatSession:
     def _save_session(self):
         file_path = self._get_session_file_path()
         session_data = {
-            "session_id": self.session_id,
             "model_name": self.model_name,
             "messages": self.messages,
             "last_updated": datetime.now().isoformat(sep=' ')
@@ -102,25 +100,23 @@ class ChatSession:
         self.model_name = model_name
         self._save_session()
         print(f"已将模型设置为 {model_name}")
-
-
-def chat_demo():
-    chat = ChatSession()
-
-    # 第一轮对话
-    print("=" * 20 + "第一轮对话" + "=" * 20)
-    thinking, reply = chat.send_message("你好", show_process=True, stream=True)
-
-    # # 第二轮对话
-    print("=" * 20 + "第二轮对话" + "=" * 20)
-    thinking, reply = chat.send_message("你是谁", show_process=True, stream=False)
-
-    # 显示完整对话历史
-    print("=" * 20 + "对话历史" + "=" * 20)
-    for msg in chat.get_history():
-        print(f"{msg['role']}: {msg['content']}")
-
-if __name__ == '__main__':
-    openapi_key = read_file("test/openapi_key")
-    set_api_key(openapi_key)
-    chat_demo()
+        
+    @staticmethod
+    def load_from_file(file_name):
+        session_id = file_name.split('.')[0]
+        
+        # 创建会话对象
+        chat = ChatSession(session_id=session_id)
+        
+        print(f"已从文件 {file_name} 加载会话")
+        return chat
+        
+    @staticmethod
+    def list_available_sessions():
+        history_dir = "chat_history"
+        if not os.path.exists(history_dir):
+            os.makedirs(history_dir)
+            return []
+            
+        sessions = [f for f in os.listdir(history_dir) if f.endswith('.json')]
+        return sessions
