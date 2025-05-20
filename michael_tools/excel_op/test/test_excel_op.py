@@ -10,15 +10,31 @@ data = {
     '年龄': [25, 30, 28],
     '城市': ['北京', '上海', '广州']
 }
-
 demo_data = pd.DataFrame(data)
-
 
 def test_export_excel():
     workbook = initialize_workbook()
     create_sheet_to_excel(workbook, "sheet_name_demo", demo_data, width_multiplier=5)
     demo_data_xlsx = "demo_data.xlsx"
     workbook.save(get_unique_filepath(demo_data_xlsx))
+
+
+def test_update_df_columns():
+    global demo_data
+    demo_data = demo_data.rename(columns={'姓名': 'Name', '年龄': 'Age'})
+
+    # 重新排序列
+    new_order = ['城市', 'Age', 'Name']
+    demo_data = demo_data[new_order]
+
+    # 删除某个列
+    demo_data = demo_data.drop(columns=['Age'])
+
+    workbook = initialize_workbook()
+    create_sheet_to_excel(workbook, "sheet_name_demo", demo_data, width_multiplier=5)
+    demo_data_xlsx = "demo_data.xlsx"
+    workbook.save(get_unique_filepath(demo_data_xlsx))
+
 
 
 def test_export_excel_use_db():

@@ -7,7 +7,8 @@ from michael_tools.file_op.dir_op import path_join
 from michael_tools.file_op.read_file import read_file
 from michael_tools.file_op.write_file import write_to_file
 from michael_tools.json_op.json_op import str_to_dict, dict_to_str
-from michael_tools.openapi_op.call_model import create_client, process_non_stream_response, process_stream_response
+from michael_tools.openapi_op.call_model import create_client, process_non_stream_response, process_stream_response, \
+    set_api_key
 
 
 # 多轮对话会话类，支持对话历史管理和存储
@@ -111,10 +112,15 @@ def chat_demo():
     thinking, reply = chat.send_message("你好", show_process=True, stream=True)
 
     # # 第二轮对话
-    # print("=" * 20 + "第二轮对话" + "=" * 20)
-    # thinking, reply = chat.send_message("你是谁", show_process=True, stream=False)
+    print("=" * 20 + "第二轮对话" + "=" * 20)
+    thinking, reply = chat.send_message("你是谁", show_process=True, stream=False)
 
     # 显示完整对话历史
     print("=" * 20 + "对话历史" + "=" * 20)
     for msg in chat.get_history():
         print(f"{msg['role']}: {msg['content']}")
+
+if __name__ == '__main__':
+    openapi_key = read_file("test/openapi_key")
+    set_api_key(openapi_key)
+    chat_demo()
