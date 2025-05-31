@@ -214,5 +214,9 @@ def main():
 
     root.mainloop()
 
+
+# 打包
+# pip install pyinstaller
+# pyinstaller --noconfirm --nowindowed --onefile min_program.py
 if __name__ == "__main__":
     main()
