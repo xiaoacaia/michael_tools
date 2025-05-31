@@ -5,7 +5,7 @@ from michael_tools.file_op.unique_filepath import get_unique_filepath
 from michael_tools.file_op.dir_op import get_curr_work_dir, get_upper_dir, path_join
 from michael_tools.file_op.write_file import write_to_file, append_to_file
 
-test_filename = "foo.txt"
+test_filename = "llm_output.txt"
 
 
 def test_get_curr_work_dir():

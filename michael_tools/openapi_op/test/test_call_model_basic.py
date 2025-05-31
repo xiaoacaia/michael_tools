@@ -1,4 +1,4 @@
-from michael_tools.openapi_op.call_model import call_model, set_api_key
+from michael_tools.openapi_op.call_model import call_model
 
 
 def test_call_model():

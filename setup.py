@@ -26,9 +26,10 @@ setup(
     ],
     python_requires='>=3.13',
     install_requires=[  # 依赖项（可选）
-        'openpyxl',
-        'pandas',
+        'pytest',
         'pymysql',
-        'openai'
+        'pandas',
+        'openai',
+        'openpyxl',
     ],
 )
