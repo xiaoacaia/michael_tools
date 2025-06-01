@@ -14,3 +14,7 @@ michael_tools/openapi_op/test/openapi_key
 /michael_tools.egg-info/
 /dist/
 /michael_tools/sql_op/test/db_config.json
+/michael_tools/txt_operation/llm_format/build/
+/michael_tools/txt_operation/llm_format/min_program.spec
+/build/
+/min_program.spec

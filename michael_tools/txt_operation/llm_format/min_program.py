@@ -148,8 +148,18 @@ class LatexConverter:
             content_after_marker = text[start_pos + len(second_translation_marker):].strip()
             converted_text = re.sub(r'\\?\\\(\s*(.*?)\s*\\?\\\)', r'$$\1$$', content_after_marker)
             return converted_text
-        else:
-            return ""
+
+        second_translation_marker = "### 第二次意译："
+        if second_translation_marker in text:
+            start_pos = text.find(second_translation_marker)
+            content_after_marker = text[start_pos + len(second_translation_marker):].strip()
+            converted_text = re.sub(r'\\?\\\(\s*(.*?)\s*\\?\\\)', r'$$\1$$', content_after_marker)
+            return converted_text
+
+        content_after_marker = text.strip()
+        converted_text = re.sub(r'\\?\\\(\s*(.*?)\s*\\?\\\)', r'$$\1$$', content_after_marker)
+        return converted_text
+
 
     def convert_text(self):
         """转换按钮的回调函数"""
@@ -217,6 +227,6 @@ def main():
 
 # 打包
 # pip install pyinstaller
-# pyinstaller --noconfirm --nowindowed --onefile min_program.py
+# pyinstaller --noconfirm --onefile --noconsole .\michael_tools\txt_operation\llm_format\min_program.py
 if __name__ == "__main__":
     main()
